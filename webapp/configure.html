@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button>back</button>
+    <div style="background-color: black; border: 10px solid white; height: 200px; width: 530px; color: white; margin: 0 auto; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <h1>Configure</h1>
+        <p>Target: <input type="text" id="target" value="local"></p>
+        <p>Profile: <select id="profile"><option value="default">Crash</option><option value="custom1">Hang</option></select></p>
+        <p>Monitor:    <label class="switch"><input type="checkbox" id="monitor" checked><span class="slider round"></span></label></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const targetInput = document.getElementById('target');
+        const profileSelect = document.getElementById('profile');
+        const monitorCheckbox = document.getElementById('monitor');
+
+        // Load saved options from cookies
+        const savedOptions = document.cookie.split('; ').find(row => row.startsWith('toasteroptions='));
+        if (savedOptions) {
+            const options = JSON.parse(decodeURIComponent(savedOptions.split('=')[1]));
+            targetInput.value = options.target || 'local';
+            profileSelect.value = options.profile || 'default';
+            monitorCheckbox.checked = options.monitor || false;
+        }
+
+        // Save options to cookies
+        const saveOptions = () => {
+            const options = {
+                target: targetInput.value,
+                profile: profileSelect.value,
+                monitor: monitorCheckbox.checked
+            };
+            document.cookie = `toasteroptions=${encodeURIComponent(JSON.stringify(options))}; path=/; max-age=31536000`;
+        };
+
+        targetInput.addEventListener('change', saveOptions);
+        profileSelect.addEventListener('change', saveOptions);
+        monitorCheckbox.addEventListener('change', saveOptions);
+    });
+</script>

@@ -1,0 +1,20 @@
+HTML{
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+}
+
+button {
+    background-color: #444;
+    color: white;
+    border: 2px solid #888;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+    border-color: #aaa;
+}
